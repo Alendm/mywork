@@ -16,13 +16,8 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    private VBox items;
-
-    @Override
-    public void init() throws Exception {
-        super.init();
-        items = new VBox();
-    }
+    private final VBox items = new VBox();
+    private final TextField itemName = new TextField();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -39,21 +34,19 @@ public class Main extends Application {
     private Node createInputControl() {
         HBox hBox = new HBox();
 
-        TextField itemName = new TextField();
         HBox.setHgrow(itemName, Priority.ALWAYS);
-        itemName.setOnAction((ActionEvent event) -> {
-            items.getChildren().add(createItem(itemName.getText()));
-            itemName.setText("");
-        });
+        itemName.setOnAction(this::addTodo);
 
         Button addItem = new Button("Add Todo");
-        addItem.setOnAction((ActionEvent event) -> {
-            items.getChildren().add(createItem(itemName.getText()));
-            itemName.setText("");
-        });
+        addItem.setOnAction(this::addTodo);
 
         hBox.getChildren().addAll(itemName, addItem);
         return hBox;
+    }
+
+    private void addTodo(ActionEvent event) {
+        items.getChildren().add(createItem(itemName.getText()));
+        itemName.setText("");
     }
 
     private Node createItem(String name) {
