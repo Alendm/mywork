@@ -15,7 +15,12 @@ public class Store {
         try {
             isDispatching = true;
             currentState = currentReducer.reduce(currentState, action);
-        } finally {
+        }
+        catch (ReduxError.DispatchInReducerError e) {
+            throw e;
+        }
+        catch (Throwable t) {}
+        finally {
             isDispatching = false;
         }
 

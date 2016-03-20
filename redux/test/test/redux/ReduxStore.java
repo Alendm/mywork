@@ -205,11 +205,20 @@ public class ReduxStore {
         boolean gotError = false;
         try {
             store.dispatch(action);
-        }
-        catch (ReduxError.DispatchInReducerError error) {
+        } catch (ReduxError.DispatchInReducerError error) {
             gotError = true;
         }
 
         assertTrue(gotError);
+    }
+
+    @Test
+    public void recovers_from_an_error_within_a_reducer() throws Exception {
+        Reducer reducer = (state, action) -> {
+            throw new Error();
+        };
+        Store store = new Store(reducer, new TrivialStore());
+
+        store.dispatch(Action.empty);
     }
 }
