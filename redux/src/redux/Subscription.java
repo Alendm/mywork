@@ -1,26 +1,22 @@
 package redux;
 
 public class Subscription {
-    interface CallBack {
-        void call();
-    }
-
     private boolean isSubscribed = true;
 
     public boolean isSubscribed() {
         return isSubscribed;
     }
-    private CallBack callBack;
+    private Runnable callBack;
 
     public void cancel() {
         if (!isSubscribed) {
             return;
         }
         isSubscribed = false;
-        callBack.call();
+        callBack.run();
     }
 
-    Subscription(CallBack unsubscribe) {
+    Subscription(Runnable unsubscribe) {
         this.callBack = unsubscribe;
     }
 }

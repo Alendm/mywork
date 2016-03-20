@@ -3,9 +3,8 @@ package test.redux;
 import org.junit.Test;
 import examples.todo.TodoList;
 import examples.todo.TodoStore;
-import redux.Action;
-import redux.Store;
-import redux.Subscription;
+import redux.*;
+import test.utils.RunableAction;
 import test.utils.SpyState;
 import test.utils.TrivialStore;
 import test.utils.SpyListener;
@@ -188,5 +187,29 @@ public class ReduxStore {
         expected.add("2");
         expected.add("1");
         assertEquals(expected, newState.getActionLog());
+    }
+
+    @Test
+    public void does_not_allow_dispatch_from_within_a_reducer() throws Exception {
+        Reducer reducer = (state, action) -> {
+            if (action instanceof RunableAction) {
+                ((RunableAction) action).callBack.run();
+            }
+            return state;
+        };
+        Store store = new Store(reducer, new TrivialStore());
+        Action action = new RunableAction(() ->
+                store.dispatch(Action.empty)
+        );
+
+        boolean gotError = false;
+        try {
+            store.dispatch(action);
+        }
+        catch (ReduxError.DispatchInReducerError error) {
+            gotError = true;
+        }
+
+        assertTrue(gotError);
     }
 }

@@ -2,11 +2,6 @@ package redux;
 
 import java.util.ArrayList;
 
-//interface CallBack {
-//    void call();
-//}
-//
-
 public class Store {
 
     public State getState() {
