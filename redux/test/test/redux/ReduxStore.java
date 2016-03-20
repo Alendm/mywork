@@ -6,6 +6,7 @@ import examples.todo.TodoStore;
 import redux.Action;
 import redux.Store;
 import redux.Subscription;
+import test.utils.SpyState;
 import test.utils.TrivialStore;
 import test.utils.SpyListener;
 
@@ -166,5 +167,26 @@ public class ReduxStore {
 
         assertEquals("done", result.get(0));
         assertEquals(1, result.size());
+    }
+
+    @Test
+    public void handles_nested_dispatches_gracefully() throws Exception {
+        Store store = new Store(SpyState.reducer, new SpyState());
+        store.subscribe(() -> {
+            SpyState state = (SpyState) store.getState();
+            if (!state.getActionLog().contains("2")) {
+                store.dispatch(SpyState.action("2"));
+            }
+        });
+
+        store.dispatch(SpyState.action("1"));
+        store.dispatch(SpyState.action("1"));
+
+        SpyState newState = (SpyState) store.getState();
+        ArrayList<String> expected = new ArrayList<>();
+        expected.add("1");
+        expected.add("2");
+        expected.add("1");
+        assertEquals(expected, newState.getActionLog());
     }
 }
