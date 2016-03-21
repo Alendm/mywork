@@ -19,7 +19,7 @@ public class Store {
         catch (ReduxError.DispatchInReducerError e) {
             throw e;
         }
-        catch (Throwable t) {}
+        catch (Throwable ignored) {}
         finally {
             isDispatching = false;
         }
@@ -49,13 +49,15 @@ public class Store {
     private Reducer currentReducer;
     private ArrayList<Listener> currentListeners;
     private ArrayList<Listener> nextListeners;
-    private boolean isDispatching = false;
+    private boolean isDispatching;
 
     public Store(Reducer reducer, State initialState) {
         currentReducer = reducer;
         currentState = initialState;
         currentListeners = new ArrayList<>();
         nextListeners = currentListeners;
+        isDispatching = false;
+        dispatch(Action.empty);
     }
 
     private void ensureCanMutateNextListeners() {

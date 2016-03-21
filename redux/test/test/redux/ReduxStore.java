@@ -57,14 +57,18 @@ public class ReduxStore {
     @Test
     public void supports_subscription() {
         Store store = new Store(TodoStore.reducer, new TodoList());
-        store.dispatch(TodoStore.addTodo("1"));
+
         SpyListener listener = new SpyListener();
+        store.dispatch(TodoStore.addTodo("1"));
+        assertEquals(0, listener.getCallCount());
+
         Subscription subscription = store.subscribe(listener);
+        assertTrue(subscription.isSubscribed());
 
         store.dispatch(TodoStore.addTodo("2"));
-        store.dispatch(TodoStore.addTodo("3"));
+        assertEquals(1, listener.getCallCount());
 
-        assertTrue(subscription.isSubscribed());
+        store.dispatch(TodoStore.addTodo("3"));
         assertEquals(2, listener.getCallCount());
     }
 
@@ -72,12 +76,16 @@ public class ReduxStore {
     public void supports_subscription_cancel() {
         Store store = new Store(TodoStore.reducer, new TodoList());
         SpyListener listener = new SpyListener();
+
         Subscription subscription = store.subscribe(listener);
+        assertTrue(subscription.isSubscribed());
+
         store.dispatch(TodoStore.addTodo("1"));
+        assertEquals(1, listener.getCallCount());
 
         subscription.cancel();
-
         assertFalse(subscription.isSubscribed());
+
         store.dispatch(TodoStore.addTodo("2"));
         assertEquals(1, listener.getCallCount());
     }
