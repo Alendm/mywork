@@ -35,19 +35,23 @@ public class ReduxStore {
 
     @Test
     public void preserve_state_when_replacing_reducer() {
-        TodoList initialState = new TodoList();
+        TodoList initialState = (new TodoList()).appendTodo("0");
         Store store = new Store(TodoStore.reducer, initialState);
         store.dispatch(TodoStore.addTodo("1"));
-        assertEquals("1", ((TodoList) store.getState()).itemList.get(0).text);
+        assertEquals(2, ((TodoList) store.getState()).itemList.size());
+        assertEquals("0", ((TodoList) store.getState()).itemList.get(0).text);
+        assertEquals("1", ((TodoList) store.getState()).itemList.get(1).text);
 
         store.replaceReducer(TodoStore.reverseReducer);
-        assertEquals(1, ((TodoList) store.getState()).itemList.size());
-        assertEquals("1", ((TodoList) store.getState()).itemList.get(0).text);
+        assertEquals(2, ((TodoList) store.getState()).itemList.size());
+        assertEquals("0", ((TodoList) store.getState()).itemList.get(0).text);
+        assertEquals("1", ((TodoList) store.getState()).itemList.get(1).text);
 
         store.dispatch(TodoStore.addTodo("2"));
-        assertEquals(2, ((TodoList) store.getState()).itemList.size());
+        assertEquals(3, ((TodoList) store.getState()).itemList.size());
         assertEquals("2", ((TodoList) store.getState()).itemList.get(0).text);
-        assertEquals("1", ((TodoList) store.getState()).itemList.get(1).text);
+        assertEquals("0", ((TodoList) store.getState()).itemList.get(1).text);
+        assertEquals("1", ((TodoList) store.getState()).itemList.get(2).text);
     }
 
     @Test

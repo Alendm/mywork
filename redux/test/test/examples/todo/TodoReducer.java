@@ -13,6 +13,7 @@ public class TodoReducer {
     @Test
     public void should_accept_addTodo_action() throws Exception {
         TodoList list = new TodoList();
+        assertEquals(0, list.itemList.size());
 
         TodoList newList = (TodoList) TodoStore.reducer.reduce(list, TodoStore.addTodo("test"));
 
@@ -37,21 +38,21 @@ public class TodoReducer {
 
     @Test
     public void reducer_should_add_todo_to_the_end() throws Exception {
-        TodoList list = (new TodoList()).appendTodo("0");
+        TodoList list = (new TodoList()).appendTodo("1");
 
-        TodoList newList = (TodoList) TodoStore.reducer.reduce(list, TodoStore.addTodo("1"));
+        TodoList newList = (TodoList) TodoStore.reducer.reduce(list, TodoStore.addTodo("2"));
 
-        assertEquals("0", newList.itemList.get(0).text);
-        assertEquals("1", newList.itemList.get(1).text);
+        assertEquals("1", newList.itemList.get(0).text);
+        assertEquals("2", newList.itemList.get(1).text);
     }
 
     @Test
     public void reverseReducer_should_add_todo_to_the_beginning() throws Exception {
-        TodoList list = (new TodoList()).appendTodo("0");
+        TodoList list = (new TodoList()).appendTodo("1");
 
-        TodoList newList = (TodoList) TodoStore.reverseReducer.reduce(list, TodoStore.addTodo("1"));
+        TodoList newList = (TodoList) TodoStore.reverseReducer.reduce(list, TodoStore.addTodo("2"));
 
-        assertEquals("1", newList.itemList.get(0).text);
-        assertEquals("0", newList.itemList.get(1).text);
+        assertEquals("2", newList.itemList.get(0).text);
+        assertEquals("1", newList.itemList.get(1).text);
     }
 }
