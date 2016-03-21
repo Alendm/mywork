@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/todo.iml" filepath="$PROJECT_DIR$/todo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fxapp/fxapp.iml" filepath="$PROJECT_DIR$/fxapp/fxapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/mywork.iml" filepath="$PROJECT_DIR$/.idea/mywork.iml" />
+      <module fileurl="file://$PROJECT_DIR$/redux/redux.iml" filepath="$PROJECT_DIR$/redux/redux.iml" />
     </modules>
   </component>
 </project>
