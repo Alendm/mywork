@@ -1,4 +1,4 @@
-package examples.todo;
+package redux.examples.todo;
 
 import java.util.UUID;
 

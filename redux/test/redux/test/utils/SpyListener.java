@@ -1,4 +1,4 @@
-package test.utils;
+package redux.test.utils;
 
 import redux.Listener;
 

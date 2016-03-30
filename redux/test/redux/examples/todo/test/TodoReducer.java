@@ -1,11 +1,11 @@
-package test.examples.todo;
+package redux.examples.todo.test;
 
 import org.junit.Test;
-import examples.todo.TodoList;
-import examples.todo.TodoStore;
+import redux.examples.todo.TodoList;
+import redux.examples.todo.TodoStore;
 import redux.Action;
 import redux.State;
-import test.utils.TrivialStore;
+import redux.test.utils.TrivialStore;
 
 import static org.junit.Assert.*;
 
@@ -15,14 +15,14 @@ public class TodoReducer {
         TodoList list = new TodoList();
         assertEquals(0, list.itemList.size());
 
-        TodoList newList = (TodoList) TodoStore.reducer.reduce(list, TodoStore.addTodo("test"));
+        TodoList newList = (TodoList) TodoStore.reducer.reduce(list, TodoStore.addTodo("redux/test"));
 
         assertEquals(1, newList.itemList.size());
     }
 
     @Test
     public void should_ignore_unknown_store() throws Exception {
-        State newState = TodoStore.reducer.reduce(TrivialStore.state, TodoStore.addTodo("test"));
+        State newState = TodoStore.reducer.reduce(TrivialStore.state, TodoStore.addTodo("redux/test"));
 
         assertEquals(TrivialStore.state, newState);
     }
