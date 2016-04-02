@@ -1,13 +1,13 @@
-package test.redux;
+package redux.test;
 
 import org.junit.Test;
-import examples.todo.TodoList;
-import examples.todo.TodoStore;
+import redux.examples.todo.TodoList;
+import redux.examples.todo.TodoStore;
 import redux.*;
-import test.utils.RunableAction;
-import test.utils.SpyState;
-import test.utils.TrivialStore;
-import test.utils.SpyListener;
+import redux.test.utils.RunableAction;
+import redux.test.utils.SpyState;
+import redux.test.utils.TrivialStore;
+import redux.test.utils.SpyListener;
 
 import java.util.ArrayList;
 

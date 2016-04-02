@@ -1,9 +1,10 @@
-package test.examples.todo;
+package redux.examples.todo.test;
 
-import examples.todo.TodoList;
 import org.junit.Test;
-
 import static org.junit.Assert.*;
+
+import redux.examples.todo.TodoList;
+
 
 public class TodoState {
     @Test
@@ -17,7 +18,7 @@ public class TodoState {
     public void should_not_modify_itself_on_item_addition() throws Exception {
         TodoList list = new TodoList();
 
-        TodoList newList = list.appendTodo("test");
+        TodoList newList = list.appendTodo("redux/test");
 
         assertEquals(0, list.itemList.size());
         assertEquals(1, newList.itemList.size());
