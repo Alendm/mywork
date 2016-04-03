@@ -1,10 +1,10 @@
 package redux.test;
 
 import org.junit.Test;
-import redux.examples.todo.TodoList;
+import redux.examples.todo.TodoState;
 import redux.examples.todo.TodoStore;
 import redux.*;
-import redux.test.utils.RunableAction;
+import redux.test.utils.RunnableAction;
 import redux.test.utils.SpyState;
 import redux.test.utils.TrivialStore;
 import redux.test.utils.SpyListener;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-public class ReduxStore {
+public class StoreTest {
     @Test
     public void accepts_initial_state() {
 
@@ -24,39 +24,39 @@ public class ReduxStore {
 
     @Test
     public void should_dispatch_action() {
-        TodoList initialState = new TodoList();
+        TodoState initialState = new TodoState();
         Store store = new Store(TodoStore.reducer, initialState);
 
         store.dispatch(TodoStore.addTodo("0"));
 
-        TodoList newList = (TodoList) store.getState();
-        assertEquals(1, newList.itemList.size());
+        TodoState newList = (TodoState) store.getState();
+        assertEquals(1, newList.size());
     }
 
     @Test
     public void preserve_state_when_replacing_reducer() {
-        TodoList initialState = (new TodoList()).appendTodo("0");
+        TodoState initialState = (new TodoState()).appendTodo("0");
         Store store = new Store(TodoStore.reducer, initialState);
         store.dispatch(TodoStore.addTodo("1"));
-        assertEquals(2, ((TodoList) store.getState()).itemList.size());
-        assertEquals("0", ((TodoList) store.getState()).itemList.get(0).text);
-        assertEquals("1", ((TodoList) store.getState()).itemList.get(1).text);
+        assertEquals(2, ((TodoState) store.getState()).size());
+        assertEquals("0", ((TodoState) store.getState()).getText(0));
+        assertEquals("1", ((TodoState) store.getState()).getText(1));
 
         store.replaceReducer(TodoStore.reverseReducer);
-        assertEquals(2, ((TodoList) store.getState()).itemList.size());
-        assertEquals("0", ((TodoList) store.getState()).itemList.get(0).text);
-        assertEquals("1", ((TodoList) store.getState()).itemList.get(1).text);
+        assertEquals(2, ((TodoState) store.getState()).size());
+        assertEquals("0", ((TodoState) store.getState()).getText(0));
+        assertEquals("1", ((TodoState) store.getState()).getText(1));
 
         store.dispatch(TodoStore.addTodo("2"));
-        assertEquals(3, ((TodoList) store.getState()).itemList.size());
-        assertEquals("2", ((TodoList) store.getState()).itemList.get(0).text);
-        assertEquals("0", ((TodoList) store.getState()).itemList.get(1).text);
-        assertEquals("1", ((TodoList) store.getState()).itemList.get(2).text);
+        assertEquals(3, ((TodoState) store.getState()).size());
+        assertEquals("2", ((TodoState) store.getState()).getText(0));
+        assertEquals("0", ((TodoState) store.getState()).getText(1));
+        assertEquals("1", ((TodoState) store.getState()).getText(2));
     }
 
     @Test
     public void supports_subscription() {
-        Store store = new Store(TodoStore.reducer, new TodoList());
+        Store store = new Store(TodoStore.reducer, new TodoState());
 
         SpyListener listener = new SpyListener();
         store.dispatch(TodoStore.addTodo("1"));
@@ -74,7 +74,7 @@ public class ReduxStore {
 
     @Test
     public void supports_subscription_cancel() {
-        Store store = new Store(TodoStore.reducer, new TodoList());
+        Store store = new Store(TodoStore.reducer, new TodoState());
         SpyListener listener = new SpyListener();
 
         Subscription subscription = store.subscribe(listener);
@@ -168,10 +168,10 @@ public class ReduxStore {
 
     @Test
     public void provides_an_up_to_date_state_when_a_subscriber_is_notified() {
-        Store store = new Store(TodoStore.reducer, new TodoList());
+        Store store = new Store(TodoStore.reducer, new TodoState());
         ArrayList<String> result = new ArrayList<>();
         store.subscribe(() ->
-                result.add(((TodoList) store.getState()).itemList.get(0).text)
+                result.add(((TodoState) store.getState()).getText(0))
         );
 
         store.dispatch(TodoStore.addTodo("done"));
@@ -181,7 +181,7 @@ public class ReduxStore {
     }
 
     @Test
-    public void handles_nested_dispatches_gracefully() throws Exception {
+    public void handles_nested_dispatches_gracefully() {
         Store store = new Store(SpyState.reducer, new SpyState());
         store.subscribe(() -> {
             SpyState state = (SpyState) store.getState();
@@ -202,15 +202,15 @@ public class ReduxStore {
     }
 
     @Test
-    public void does_not_allow_dispatch_from_within_a_reducer() throws Exception {
+    public void does_not_allow_dispatch_from_within_a_reducer() {
         Reducer reducer = (state, action) -> {
-            if (action instanceof RunableAction) {
-                ((RunableAction) action).callBack.run();
+            if (action instanceof RunnableAction) {
+                ((RunnableAction) action).callBack.run();
             }
             return state;
         };
         Store store = new Store(reducer, new TrivialStore());
-        Action action = new RunableAction(() ->
+        Action action = new RunnableAction(() ->
                 store.dispatch(Action.empty)
         );
 
@@ -225,7 +225,7 @@ public class ReduxStore {
     }
 
     @Test
-    public void recovers_from_an_error_within_a_reducer() throws Exception {
+    public void recovers_from_an_error_within_a_reducer() {
         Reducer reducer = (state, action) -> {
             throw new Error();
         };

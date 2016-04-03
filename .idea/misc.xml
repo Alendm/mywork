@@ -41,6 +41,12 @@
   <component name="EntryPointsManager">
     <entry_points version="2.0">
       <entry_point TYPE="class" FQNAME="redux.StoreTest" />
+      <entry_point TYPE="class" FQNAME="redux.examples.todo.test.TodoStateTest" />
+      <entry_point TYPE="method" FQNAME="redux.examples.todo.test.TodoStateTest void should_be_empty_upon_initialization()" />
+      <entry_point TYPE="method" FQNAME="redux.examples.todo.test.TodoStateTest void should_create_new_item_as_not_completed()" />
+      <entry_point TYPE="method" FQNAME="redux.examples.todo.test.TodoStateTest void should_not_modify_itself_on_item_addition()" />
+      <entry_point TYPE="method" FQNAME="redux.examples.todo.test.TodoStateTest void appendTodo_should_add_item_to_the_end()" />
+      <entry_point TYPE="method" FQNAME="redux.examples.todo.test.TodoStateTest void insertTodo_should_add_item_to_the_specified_index()" />
     </entry_points>
   </component>
   <component name="ProjectKey">

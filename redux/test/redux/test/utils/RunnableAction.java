@@ -4,10 +4,10 @@ import redux.Action;
 
 
 
-public class RunableAction implements Action {
+public class RunnableAction implements Action {
     public final Runnable callBack;
 
-    public RunableAction(Runnable callBack) {
+    public RunnableAction(Runnable callBack) {
         this.callBack = callBack;
     }
 }

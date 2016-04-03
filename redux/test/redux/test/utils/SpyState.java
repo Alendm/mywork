@@ -6,15 +6,15 @@ import redux.State;
 
 import java.util.ArrayList;
 
-class SpyAction implements Action {
-    final String type;
-    SpyAction(String type) {
-        this.type = type;
-    }
-}
-
 public class SpyState implements State {
-    private ArrayList<String> actionLog;
+    private static class SpyAction implements Action {
+        final String type;
+        SpyAction(String type) {
+            this.type = type;
+        }
+    }
+
+    private final ArrayList<String> actionLog;
 
     public SpyState() {
         actionLog = new ArrayList<>();
@@ -34,7 +34,6 @@ public class SpyState implements State {
     public static Reducer reducer = (state, action) -> {
         SpyState spyState = (SpyState) state;
         ArrayList<String> actionLog = spyState.getActionLog();
-        SpyAction spyAction = (SpyAction) action;
         actionLog.add(((SpyAction) action).type);
         return new SpyState(actionLog);
     };

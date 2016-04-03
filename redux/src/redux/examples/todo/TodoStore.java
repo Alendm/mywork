@@ -2,36 +2,65 @@ package redux.examples.todo;
 
 import redux.Action;
 import redux.Reducer;
+import redux.State;
+import redux.Store;
 
-public class TodoStore {
-    public static final Reducer reducer = (state, action) -> {
-        if (!(state instanceof TodoList)) {
+import java.util.UUID;
+
+public class TodoStore extends Store {
+    private static class AddTodoAction implements Action {
+        private final String text;
+
+        private AddTodoAction(String text) {
+            this.text = text;
+        }
+    }
+
+    private static class ToggleTodoAction implements Action {
+        private final UUID id;
+
+        private ToggleTodoAction(UUID id) {
+            this.id = id;
+        }
+    }
+
+    private static Reducer generateReducer(Reducer reducer) {
+        return (state, action) -> {
+            if (!(state instanceof TodoState)) {
+                return state;
+            }
+            TodoState todoState = (TodoState) state;
+
+            if (action instanceof AddTodoAction) {
+                return reducer.reduce(state, action);
+            }
+
+            if (action instanceof ToggleTodoAction) {
+                return todoState.toggleTodo(((ToggleTodoAction) action).id);
+            }
+
             return state;
-        }
-        TodoList todoList = (TodoList) state;
+        };
+    }
 
-        if (action instanceof AddTodoAction) {
-            AddTodoAction todoAction = (AddTodoAction) action;
-            return todoList.appendTodo(todoAction.text);
-        }
+    public static final Reducer reducer = generateReducer(
+            (s, a) -> ((TodoState) s).appendTodo(((AddTodoAction) a).text)
+    );
 
-        return state;
-    };
-    public static final Reducer reverseReducer = (state, action) -> {
-        if (!(state instanceof TodoList)) {
-            return state;
-        }
-        TodoList todoList = (TodoList) state;
+    public static final Reducer reverseReducer = generateReducer(
+            (s, a) -> ((TodoState) s).insertTodo( ((AddTodoAction) a).text, 0)
+    );
 
-        if (action instanceof AddTodoAction) {
-            AddTodoAction todoAction = (AddTodoAction) action;
-            return todoList.insertTodo(todoAction.text, 0);
-        }
-
-        return state;
-    };
+    public TodoStore(TodoState todoState) {
+        super(reducer, todoState);
+    }
 
     public static Action addTodo(String text) {
         return new AddTodoAction(text);
     }
+
+    public static Action toggleTodo(UUID uuid) {
+        return new ToggleTodoAction(uuid);
+    }
+
 }
