@@ -7,7 +7,8 @@ import javafx.stage.Stage;
 import redux.examples.todo.TodoState;
 import redux.examples.todo.TodoStore;
 
-public class Main extends Application {
+@SuppressWarnings("WeakerAccess")
+public class ReduxFxTodoApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Redux Todo");

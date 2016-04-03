@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import redux.examples.todo.TodoItem;
 import redux.examples.todo.TodoState;
 
 import java.util.UUID;
@@ -27,7 +26,7 @@ public class TodoStateTest {
     }
 
     @Test
-    public void shoul_be_able_to_toggle_state() {
+    public void should_be_able_to_toggle_state() {
         TodoState state = new TodoState("1");
         UUID id = state.getId(0);
 
@@ -80,11 +79,13 @@ public class TodoStateTest {
 
     @Test
     public void insertTodo_should_add_item_to_the_specified_index() {
-        TodoState list = new TodoState("0");
+        TodoState list = new TodoState("0","2");
 
-        TodoState newList = list.insertTodo("1", 0);
+        TodoState newList = list.insertTodo("1", 1);
 
-        assertEquals("1", newList.getText(0));
-        assertEquals("0", newList.getText(1));
+        assertEquals(3, newList.size());
+        assertEquals("0", newList.getText(0));
+        assertEquals("1", newList.getText(1));
+        assertEquals("2", newList.getText(2));
     }
 }

@@ -35,23 +35,37 @@ public class StoreTest {
 
     @Test
     public void preserve_state_when_replacing_reducer() {
-        TodoState initialState = (new TodoState()).appendTodo("0");
+        TodoState initialState = new TodoState("1");
         Store store = new Store(TodoStore.reducer, initialState);
-        store.dispatch(TodoStore.addTodo("1"));
+
+        store.dispatch(TodoStore.addTodo("2"));
         assertEquals(2, ((TodoState) store.getState()).size());
-        assertEquals("0", ((TodoState) store.getState()).getText(0));
-        assertEquals("1", ((TodoState) store.getState()).getText(1));
+        assertEquals("1", ((TodoState) store.getState()).getText(0));
+        assertEquals("2", ((TodoState) store.getState()).getText(1));
 
         store.replaceReducer(TodoStore.reverseReducer);
         assertEquals(2, ((TodoState) store.getState()).size());
+        assertEquals("1", ((TodoState) store.getState()).getText(0));
+        assertEquals("2", ((TodoState) store.getState()).getText(1));
+
+        store.dispatch(TodoStore.addTodo("0"));
+        assertEquals(3, ((TodoState) store.getState()).size());
         assertEquals("0", ((TodoState) store.getState()).getText(0));
         assertEquals("1", ((TodoState) store.getState()).getText(1));
+        assertEquals("2", ((TodoState) store.getState()).getText(2));
 
-        store.dispatch(TodoStore.addTodo("2"));
+        store.replaceReducer(TodoStore.reducer);
         assertEquals(3, ((TodoState) store.getState()).size());
-        assertEquals("2", ((TodoState) store.getState()).getText(0));
-        assertEquals("0", ((TodoState) store.getState()).getText(1));
-        assertEquals("1", ((TodoState) store.getState()).getText(2));
+        assertEquals("0", ((TodoState) store.getState()).getText(0));
+        assertEquals("1", ((TodoState) store.getState()).getText(1));
+        assertEquals("2", ((TodoState) store.getState()).getText(2));
+
+        store.dispatch(TodoStore.addTodo("3"));
+        assertEquals(4, ((TodoState) store.getState()).size());
+        assertEquals("0", ((TodoState) store.getState()).getText(0));
+        assertEquals("1", ((TodoState) store.getState()).getText(1));
+        assertEquals("2", ((TodoState) store.getState()).getText(2));
+        assertEquals("3", ((TodoState) store.getState()).getText(3));
     }
 
     @Test

@@ -13,7 +13,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+@SuppressWarnings("WeakerAccess")
+public class FxTodoApplication extends Application {
 
     private final VBox items = new VBox();
     private final TextField itemName = new TextField();
