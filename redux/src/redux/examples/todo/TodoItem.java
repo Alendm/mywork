@@ -3,11 +3,21 @@ package redux.examples.todo;
 import java.util.UUID;
 
 public class TodoItem {
-    private final UUID id;
+    public final UUID id;
     public final String text;
+    public final boolean completed;
 
-    public TodoItem(String text) {
-        this.id = UUID.randomUUID();
+    TodoItem(String text) {
+        this(UUID.randomUUID(), text, false);
+    }
+
+    private TodoItem(UUID id, String text, boolean completed) {
+        this.id = id;
         this.text = text;
+        this.completed = completed;
+    }
+
+    TodoItem toggled() {
+        return new TodoItem(id, text, !completed);
     }
 }
