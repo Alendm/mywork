@@ -11,7 +11,7 @@ class InputRow extends HBox {
     private final TextField textField = new TextField();
     private final InputHandler onInput;
 
-    private void onAction(ActionEvent event) {
+    private void onAction(@SuppressWarnings("UnusedParameters") ActionEvent event) {
         onInput.handle(textField.getText());
         textField.setText("");
     }

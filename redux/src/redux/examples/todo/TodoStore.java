@@ -2,7 +2,6 @@ package redux.examples.todo;
 
 import redux.Action;
 import redux.Reducer;
-import redux.State;
 import redux.Store;
 
 import java.util.UUID;

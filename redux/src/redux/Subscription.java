@@ -6,7 +6,7 @@ public class Subscription {
         return isSubscribed;
     }
 
-    private Runnable callBack;
+    private final Runnable callBack;
 
     public void cancel() {
         if (!isSubscribed) {

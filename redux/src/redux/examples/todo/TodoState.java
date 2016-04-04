@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TodoState implements State {
-    private List<TodoItem> itemList;
+    private final List<TodoItem> itemList;
 
     public TodoState() {
         this.itemList = new ArrayList<>();

@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
+@SuppressWarnings("WeakerAccess")
 public class JavaFxJUnit4Application extends Application
 {
 
@@ -15,7 +16,7 @@ public class JavaFxJUnit4Application extends Application
     private static final ReentrantLock LOCK = new ReentrantLock();
 
     /** Started flag. */
-    private static AtomicBoolean started = new AtomicBoolean();
+    private static final AtomicBoolean started = new AtomicBoolean();
 
     /**
      * Start JavaFx.

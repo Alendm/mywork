@@ -6,7 +6,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -14,14 +13,15 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+@SuppressWarnings("WeakerAccess")
+public class FxTodoApplication extends Application {
 
     private final VBox items = new VBox();
     private final TextField itemName = new TextField();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Simple Todo");
+        primaryStage.setTitle("FX Todo");
 
         BorderPane root = new BorderPane();
         root.setTop(createInputControl());
@@ -44,16 +44,9 @@ public class Main extends Application {
         return hBox;
     }
 
-    private void addTodo(ActionEvent event) {
-        items.getChildren().add(createItem(itemName.getText()));
+    private void addTodo(@SuppressWarnings("UnusedParameters") ActionEvent event) {
+        items.getChildren().add(new CheckBox(itemName.getText()));
         itemName.setText("");
-    }
-
-    private Node createItem(String name) {
-        HBox hBox = new HBox();
-        hBox.getChildren().add(new CheckBox());
-        hBox.getChildren().add(new Label(name));
-        return hBox;
     }
 
     public static void main(String[] args) {

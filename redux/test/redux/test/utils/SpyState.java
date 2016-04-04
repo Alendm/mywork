@@ -31,7 +31,7 @@ public class SpyState implements State {
     public static Action action(String type) {
         return new SpyAction(type);
     }
-    public static Reducer reducer = (state, action) -> {
+    public static final Reducer reducer = (state, action) -> {
         SpyState spyState = (SpyState) state;
         ArrayList<String> actionLog = spyState.getActionLog();
         actionLog.add(((SpyAction) action).type);

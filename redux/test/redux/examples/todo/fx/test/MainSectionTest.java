@@ -33,7 +33,7 @@ public class MainSectionTest {
     }
 
     @Test
-    public void should_increase_children_count_on_addTodo_action() throws Exception {
+    public void should_increase_children_count_on_addTodo_action() {
         Store store = new TodoStore(new TodoState());
 
         MainSection mainSection = new MainSection(store);

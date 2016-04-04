@@ -8,7 +8,11 @@ import redux.examples.todo.TodoState;
 import redux.examples.todo.TodoStore;
 import redux.test.utils.TrivialStore;
 
+import java.util.UUID;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class TodoStoreTest {
     @Test
@@ -22,7 +26,7 @@ public class TodoStoreTest {
     }
 
     @Test
-    public void reducer_should_accept_toggleTodo_action() throws Exception {
+    public void reducer_should_accept_toggleTodo_action() {
         TodoState initialState = new TodoState("1");
         Store store = new TodoStore(initialState);
 
@@ -69,5 +73,20 @@ public class TodoStoreTest {
 
         assertEquals("2", newState.getText(0));
         assertEquals("1", newState.getText(1));
+    }
+
+    @Test
+    public void reverseReducer_should_support_completion_state_toggling() {
+        TodoState state = new TodoState("1", "2");
+        UUID id = state.getId(1);
+        assertEquals(2, state.size());
+        assertFalse(state.isCompleted(0));
+        assertFalse(state.isCompleted(1));
+
+        TodoState newState = (TodoState) TodoStore.reverseReducer.reduce(state, TodoStore.toggleTodo(id));
+
+        assertEquals(2, newState.size());
+        assertFalse(newState.isCompleted(0));
+        assertTrue(newState.isCompleted(1));
     }
 }
