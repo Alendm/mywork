@@ -13,6 +13,20 @@ public class TodoStore extends Store {
         private AddTodoAction(String text) {
             this.text = text;
         }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof AddTodoAction) {
+                AddTodoAction other = (AddTodoAction) obj;
+                return other.text.equals(text);
+            }
+            return false;
+        }
+
+        @Override
+        public String toString() {
+            return "AddTodo: " + text;
+        }
     }
 
     private static class ToggleTodoAction implements Action {
@@ -20,6 +34,20 @@ public class TodoStore extends Store {
 
         private ToggleTodoAction(UUID id) {
             this.id = id;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof ToggleTodoAction) {
+                ToggleTodoAction other = (ToggleTodoAction) obj;
+                return other.id.equals(id);
+            }
+            return false;
+        }
+
+        @Override
+        public String toString() {
+            return "Toggle todo: " + id;
         }
     }
 
@@ -47,11 +75,15 @@ public class TodoStore extends Store {
     );
 
     public static final Reducer reverseReducer = generateReducer(
-            (s, a) -> ((TodoState) s).insertTodo( ((AddTodoAction) a).text, 0)
+            (s, a) -> ((TodoState) s).insertTodo(((AddTodoAction) a).text, 0)
     );
 
     public TodoStore(TodoState todoState) {
         super(reducer, todoState);
+    }
+
+    public TodoStore() {
+        super(reducer, new TodoState());
     }
 
     public static Action addTodo(String text) {
