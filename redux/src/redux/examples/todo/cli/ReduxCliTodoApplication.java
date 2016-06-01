@@ -31,6 +31,10 @@ public class ReduxCliTodoApplication {
             int index;
             try {
                 index = Integer.parseInt(text.trim());
+                TodoState state = (TodoState) store.getState();
+                if ((index - 1) >= state.size()) {
+                    return Action.empty;
+                }
             } catch (NumberFormatException ignore) {
                 return Action.empty;
             }
