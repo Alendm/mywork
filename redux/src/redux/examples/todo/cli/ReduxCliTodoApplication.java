@@ -36,7 +36,7 @@ public class ReduxCliTodoApplication {
             }
             TodoState state = (TodoState) store.getState();
             final int index = number - 1;
-            if (index >= state.size()) {
+            if (index >= state.size() || index < 0) {
                 return Action.empty;
             }
             UUID uuid = state.getId(index);
