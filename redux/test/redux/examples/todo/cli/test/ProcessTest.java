@@ -34,7 +34,7 @@ public class ProcessTest {
 //    }
 
     @Test
-    public void печать_состояния() throws Exception {
+    public void печать_состояния() {
         TodoStore store = new TodoStore(new TodoState("Задача1", "Задача2"));
         String actual = ReduxCliTodoApplication.printStore(store);
 
@@ -43,7 +43,7 @@ public class ProcessTest {
     }
 
     @Test
-    public void печать_пустого_состояния() throws Exception {
+    public void печать_пустого_состояния() {
         TodoStore store = new TodoStore();
         String actual = ReduxCliTodoApplication.printStore(store);
 
@@ -52,7 +52,7 @@ public class ProcessTest {
     }
 
     @Test
-    public void печать_завершенного_состояния() throws Exception {
+    public void печать_завершенного_состояния() {
         TodoStore store = new TodoStore(new TodoState("Задача1", "Задача2"));
         TodoState state = (TodoState) store.getState();
         UUID uuid = state.getId(0);
@@ -107,8 +107,6 @@ public class ProcessTest {
     @Test
     public void разбор_строки_переключения_задачи_нечисловой_ввод() {
         ReduxCliTodoApplication.store = new TodoStore(new TodoState("Задача1", "Задача2"));
-        TodoState state = (TodoState) ReduxCliTodoApplication.store.getState();
-        UUID uuid = state.getId(0);
 
         Action action = ReduxCliTodoApplication.parse("п п");
 
@@ -119,8 +117,6 @@ public class ProcessTest {
     @Test
     public void разбор_строки_переключения_задачи_индекс_больше_размера_списка() {
         ReduxCliTodoApplication.store = new TodoStore(new TodoState("Задача1", "Задача2"));
-        TodoState state = (TodoState) ReduxCliTodoApplication.store.getState();
-        UUID uuid = state.getId(0);
 
         Action action = ReduxCliTodoApplication.parse("п 3");
 
@@ -131,8 +127,6 @@ public class ProcessTest {
     @Test
     public void разбор_строки_переключения_задачи_ненатуральный_индекс() {
         ReduxCliTodoApplication.store = new TodoStore(new TodoState("Задача1", "Задача2"));
-        TodoState state = (TodoState) ReduxCliTodoApplication.store.getState();
-        UUID uuid = state.getId(0);
 
         Action action = ReduxCliTodoApplication.parse("п 0");
 
