@@ -26,13 +26,6 @@ public class ProcessTest {
         assertNull(result);
     }
 
-//    @Test
-//    public void умеет_добавлять_задачу() {
-//        String result = ReduxCliTodoApplication.process("Д Задача");
-//        String expected = "1. Задача\n> ";
-//        assertEquals(expected, result);
-//    }
-
     @Test
     public void печать_состояния() {
         TodoStore store = new TodoStore(new TodoState("Задача1", "Задача2"));
