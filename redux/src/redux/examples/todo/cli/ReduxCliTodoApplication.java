@@ -28,18 +28,18 @@ public class ReduxCliTodoApplication {
         }
         else if (input.startsWith("п ")) {
             String text = input.substring(2);
-            int index;
+            int number;
             try {
-                index = Integer.parseInt(text.trim());
-                TodoState state = (TodoState) store.getState();
-                if ((index - 1) >= state.size()) {
-                    return Action.empty;
-                }
+                number = Integer.parseInt(text.trim());
             } catch (NumberFormatException ignore) {
                 return Action.empty;
             }
             TodoState state = (TodoState) store.getState();
-            UUID uuid = state.getId(index - 1);
+            final int index = number - 1;
+            if (index >= state.size()) {
+                return Action.empty;
+            }
+            UUID uuid = state.getId(index);
             return  TodoStore.toggleTodo(uuid);
         }
         return  Action.empty;
