@@ -1,6 +1,7 @@
 package todo;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -24,28 +25,37 @@ public class FxTodoApplication extends Application {
         primaryStage.setTitle("FX Todo");
 
         BorderPane root = new BorderPane();
-        root.setTop(createInputControl());
+        final Node myInputControl = createInputControl();
+        root.setTop(myInputControl);
         root.setCenter(items);
 
-        primaryStage.setScene(new Scene(root, 300, 275));
+        final Scene myScene = new Scene(root, 300, 275);
+        primaryStage.setScene(myScene);
         primaryStage.show();
     }
 
     private Node createInputControl() {
-        HBox hBox = new HBox();
-
         HBox.setHgrow(itemName, Priority.ALWAYS);
         itemName.setOnAction(this::addTodo);
 
         Button addItem = new Button("Add Todo");
         addItem.setOnAction(this::addTodo);
 
-        hBox.getChildren().addAll(itemName, addItem);
+        HBox hBox = new HBox();
+        ObservableList<Node> myList = hBox.getChildren();
+        myList.addAll(itemName, addItem);
         return hBox;
     }
 
     private void addTodo(@SuppressWarnings("UnusedParameters") ActionEvent event) {
-        items.getChildren().add(new CheckBox(itemName.getText()));
+        final String myText = itemName.getText();
+        final CheckBox myCheckBox = new CheckBox(myText);
+        final ObservableList<Node> myList = items.getChildren();
+        myList.add(myCheckBox);
+        cleanInputField();
+    }
+
+    private void cleanInputField() {
         itemName.setText("");
     }
 
